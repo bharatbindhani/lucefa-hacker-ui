@@ -217,4 +217,92 @@ window.addEventListener("load", () => {
 });
 </script>  
 </body>
-</html>
+</html>/* Global */
+body {
+  background: #000;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.app-container {
+  padding: 20px;
+}
+
+/* Search Bar */
+.search-bar {
+  width: 70%;
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid #00ff00;
+  background: transparent;
+  color: #00ff00;
+  border-radius: 8px;
+  outline: none;
+  box-shadow: 0 0 15px #00ff00;
+  transition: 0.3s;
+}
+
+.search-bar:focus {
+  box-shadow: 0 0 25px #00ff00, 0 0 40px #00ff00;
+}
+
+/* Popup Text */
+.popup {
+  font-size: 28px;
+  margin-top: 20px;
+  color: cyan;
+  font-weight: bold;
+  text-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 40px cyan;
+  animation: popupAnim 2s ease-out forwards;
+}
+
+@keyframes popupAnim {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Buttons */
+button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: 2px solid #00ff00;
+  background: transparent;
+  color: #00ff00;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 0 10px #00ff00;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #00ff00;
+  color: black;
+  box-shadow: 0 0 25px #00ff00;
+}{
+  "name": "Lucefa Hacker UI",
+  "short_name": "Lucefa",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff00",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}<head>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
