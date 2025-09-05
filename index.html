@@ -52,6 +52,7 @@ body {
   50% { transform:translate(-50%,-50%) scale(1.1); opacity:1; }
 }
 
+/* ---------- Google Style Logo ---------- */
 .logo span {
   font-size: clamp(46px, 12vw, 88px);
   font-weight:800;
@@ -62,6 +63,15 @@ body {
   position:relative;
   z-index:1;
 }
+
+/* Har letter ka color (Google style) */
+.logo span:nth-child(1) { color: #4285F4; } /* Blue */
+.logo span:nth-child(2) { color: #DB4437; } /* Red */
+.logo span:nth-child(3) { color: #F4B400; } /* Yellow */
+.logo span:nth-child(4) { color: #4285F4; } /* Blue */
+.logo span:nth-child(5) { color: #0F9D58; } /* Green */
+.logo span:nth-child(6) { color: #DB4437; } /* Red */
+
 @keyframes popIn {
   0% { opacity:0; transform:scale(0.5) translateY(20px); }
   60% { opacity:1; transform:scale(1.2) translateY(-4px); }
@@ -150,7 +160,7 @@ body {
 </form>  
 
 <!-- Customize Button -->
-<button class="customize-btn" onclick="customizeName()">✏ Customize Logo</button>
+<button class="customize-btn" onclick="customizeName()"> Customize Logo</button>
 
 <div class="footer" id="footer">Made for Lucefa • by Badal_6174</div>  
 
@@ -184,19 +194,17 @@ window.addEventListener('resize', () => {
   canvas.height = window.innerHeight;
 });
 
-// ---- Customize Name ----
+// ---- Customize Logo ----
 function loadName() {
   const savedName = localStorage.getItem("customName") || "Lucefa";
 
-  // Logo render letter by letter
+  // Logo render letter by letter (Google colors apply automatically via CSS nth-child)
   const logo = document.getElementById("logo");
   logo.innerHTML = "";
   [...savedName].forEach((ch, i) => {
     const span = document.createElement("span");
     span.textContent = ch;
     span.style.animationDelay = (i * 0.2) + "s";
-    const colors = ["#00ff00","#00ff99","#00ffaa","#00ff55"];
-    span.style.color = colors[i % colors.length];
     logo.appendChild(span);
   });
 
