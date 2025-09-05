@@ -6,6 +6,10 @@
 <title>Lucefa Search</title>    
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">    
 
+<!-- Manifest for PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00ff00">
+
 <style>    
 body {    
   margin:0;    
@@ -138,7 +142,6 @@ body {
 <div class="reactor-glow"></div>  
 
 <h1 class="logo" id="logo"></h1>    
-
 <p class="tagline" id="tagline">Badal_6174</p>  
 
 <form class="search" action="https://www.google.com/search" method="GET">    
@@ -147,7 +150,7 @@ body {
 </form>  
 
 <!-- Customize Button -->
-<button class="customize-btn" onclick="customizeName()">✏ Customize Name</button>
+<button class="customize-btn" onclick="customizeName()">✏ Customize Logo</button>
 
 <div class="footer" id="footer">Made for Lucefa • by Badal_6174</div>  
 
@@ -181,24 +184,6 @@ window.addEventListener('resize', () => {
   canvas.height = window.innerHeight;
 });
 
-// Voice
-window.addEventListener("load", () => {
-  function speak(text, pitch = 1.2, rate = 0.9) {
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.pitch = pitch;
-    msg.rate = rate;
-    msg.volume = 1;
-    msg.voice = speechSynthesis.getVoices().find(v =>
-      v.name.includes("Google UK English Male") || 
-      v.name.includes("Google UK English Female") || 
-      v.name.includes("Google US English")
-    ) || null;
-    speechSynthesis.speak(msg);
-  }
-  speak("Welcome Sir. Access Granted.", 1.2, 0.9);
-  setTimeout(() => speak("System Ready.", 1.1, 1.0), 2500);
-});
-
 // ---- Customize Name ----
 function loadName() {
   const savedName = localStorage.getItem("customName") || "Lucefa";
@@ -210,19 +195,16 @@ function loadName() {
     const span = document.createElement("span");
     span.textContent = ch;
     span.style.animationDelay = (i * 0.2) + "s";
-    const colors = ["#4285F4","#EA4335","#FBBC05","#34A853","#EA4335","#4285F4"];
+    const colors = ["#00ff00","#00ff99","#00ffaa","#00ff55"];
     span.style.color = colors[i % colors.length];
     logo.appendChild(span);
   });
 
-  // tagline & footer fixed
-  document.getElementById("tagline").innerText = "Badal_6174";
-  document.getElementById("footer").innerText = "Made for Lucefa • by Badal_6174";
+  document.getElementById("footer").innerText = "Made for " + savedName + " • by Badal_6174";
 }
 
 function customizeName() {
   const newLogo = prompt("Enter site name (Logo):", localStorage.getItem("customName") || "Lucefa");
-
   if(newLogo && newLogo.trim() !== "") {
     localStorage.setItem("customName", newLogo.trim());
   }
@@ -230,14 +212,12 @@ function customizeName() {
 }
 
 loadName();
-</script>  
-</body>
-</html>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#00ff00">
-<script>
+
+// ---- Register Service Worker ----
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js')
     .then(() => console.log("Service Worker Registered"));
 }
-</script>
+</script>  
+</body>
+</html>
