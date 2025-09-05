@@ -1,20 +1,20 @@
-const cacheName = 'lucefa-cache-v1';
-const filesToCache = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icon_192x192.png',
-  './icon_512x512.png'
-];
+function loadName() {
+  const savedName = localStorage.getItem("customName") || "Lucefa";
 
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(cacheName).then(cache => cache.addAll(filesToCache))
-  );
-});
+  // Logo render letter by letter
+  const logo = document.getElementById("logo");
+  logo.innerHTML = "";
+  [...savedName].forEach((ch, i) => {
+    const span = document.createElement("span");
+    span.textContent = ch;
+    span.style.animationDelay = (i * 0.2) + "s";
 
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
-  );
-});
+    // Pure neon green glow effect
+    span.style.color = "#00ff00";
+    span.style.textShadow = "0 0 5px #00ff00, 0 0 10px #00ff66, 0 0 20px #00ffaa";
+
+    logo.appendChild(span);
+  });
+
+  document.getElementById("footer").innerText = "Made for " + savedName + " • by Badal_6174";
+}
