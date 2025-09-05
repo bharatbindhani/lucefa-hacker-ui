@@ -1,210 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lucefa Hacker UI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">    
+<title>Lucefa Search</title>    
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">    
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>    
+body {    
+  margin:0;    
+  padding:0;    
+  height:100vh;    
+  font-family:"Poppins", sans-serif;    
+  overflow:hidden;    
+  background:black;    
+  color:#e8eaed;    
+  display:flex;    
+  flex-direction:column;    
+  align-items:center;    
+  justify-content:center;    
+}  
 
-  <!-- Manifest for PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#00ff00">
+#matrix {  
+  position:absolute;  
+  top:0;  
+  left:0;  
+  width:100%;  
+  height:100%;  
+  z-index:0;  
+}  
 
-  <style>
-    body {
-      margin:0;
-      padding:0;
-      height:100vh;
-      font-family:"Poppins", sans-serif;
-      overflow:hidden;
-      background:black;
-      color:#e8eaed;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-    }
+.reactor-glow {
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:250px;
+  height:250px;
+  background: radial-gradient(circle, rgba(0,180,255,0.3) 0%, rgba(0,100,200,0.1) 60%, transparent 80%);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  animation: softPulse 4s ease-in-out infinite;
+  filter:blur(60px);
+  z-index:0;
+}
+@keyframes softPulse {
+  0%,100% { transform:translate(-50%,-50%) scale(1); opacity:0.6; }
+  50% { transform:translate(-50%,-50%) scale(1.1); opacity:1; }
+}
 
-    #matrix {
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      z-index:0;
-    }
+.logo span {
+  font-size: clamp(46px, 12vw, 88px);
+  font-weight:800;
+  display:inline-block;
+  opacity:0;
+  transform:scale(0.5);
+  animation: popIn 0.5s forwards;
+  position:relative;
+  z-index:1;
+}
+@keyframes popIn {
+  0% { opacity:0; transform:scale(0.5) translateY(20px); }
+  60% { opacity:1; transform:scale(1.2) translateY(-4px); }
+  100% { opacity:1; transform:scale(1) translateY(0); }
+}
 
-    .reactor-glow {
-      position:absolute;
-      top:50%;
-      left:50%;
-      width:250px;
-      height:250px;
-      background: radial-gradient(circle, rgba(0,180,255,0.3) 0%, rgba(0,100,200,0.1) 60%, transparent 80%);
-      border-radius:50%;
-      transform:translate(-50%,-50%);
-      animation: softPulse 4s ease-in-out infinite;
-      filter:blur(60px);
-      z-index:0;
-    }
-    @keyframes softPulse {
-      0%,100% { transform:translate(-50%,-50%) scale(1); opacity:0.6; }
-      50% { transform:translate(-50%,-50%) scale(1.1); opacity:1; }
-    }
+.tagline {
+  margin-top:6px;
+  font-size:16px;
+  font-weight:500;
+  color:#9aa0a6;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  position:relative;
+  z-index:1;
+}
 
-    .logo span {
-      font-size: clamp(46px, 12vw, 88px);
-      font-weight:800;
-      display:inline-block;
-      opacity:0;
-      transform:scale(0.5);
-      animation: popIn 0.5s forwards;
-      position:relative;
-      z-index:1;
-    }
-    .logo .L { color:#4285F4; animation-delay:0s; }
-    .logo .u { color:#EA4335; animation-delay:0.2s; }
-    .logo .c { color:#FBBC05; animation-delay:0.4s; }
-    .logo .e { color:#34A853; animation-delay:0.6s; }
-    .logo .f { color:#EA4335; animation-delay:0.8s; }
-    .logo .a { color:#4285F4; animation-delay:1s; }
+.search {
+  margin-top:28px;
+  display:flex;
+  width:min(500px,90%);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:40px;
+  padding:10px 16px;
+  background:#141617;
+  position:relative;
+  z-index:1;
+}
+.search input {
+  flex:1;
+  background:transparent;
+  border:none;
+  outline:none;
+  color:#fff;
+  font-size:16px;
+}
+.search button {
+  background:#00ff00;
+  border:none;
+  padding:8px 16px;
+  border-radius:20px;
+  font-weight:600;
+  cursor:pointer;
+  color:#000;
+  transition: background .2s;
+}
+.search button:hover { background:#00cc00; }
 
-    @keyframes popIn {
-      0% { opacity:0; transform:scale(0.5) translateY(20px); }
-      60% { opacity:1; transform:scale(1.2) translateY(-4px); }
-      100% { opacity:1; transform:scale(1) translateY(0); }
-    }
+.footer {
+  position:fixed;
+  bottom:0;
+  font-size:12px;
+  color:#9aa0a6;
+  width:100%;
+  text-align:center;
+  padding:8px 0;
+  z-index:1;
+}
 
-    .tagline {
-      margin-top:6px;
-      font-size:16px;
-      font-weight:500;
-      color:#9aa0a6;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      position:relative;
-      z-index:1;
-    }
+/* --- Customize Button --- */
+.customize-btn {
+  margin-top:12px;
+  background:#222;
+  border:1px solid #555;
+  color:#00ff00;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:14px;
+  cursor:pointer;
+  z-index:1;
+}
+.customize-btn:hover { background:#333; }
+</style>
+</head>    
 
-    .search {
-      margin-top:28px;
-      display:flex;
-      width:min(500px,90%);
-      border:1px solid rgba(255,255,255,0.2);
-      border-radius:40px;
-      padding:10px 16px;
-      background:#141617;
-      position:relative;
-      z-index:1;
-    }
-    .search input {
-      flex:1;
-      background:transparent;
-      border:none;
-      outline:none;
-      color:#fff;
-      font-size:16px;
-    }
-    .search button {
-      background:#00ff00;
-      border:none;
-      padding:8px 16px;
-      border-radius:20px;
-      font-weight:600;
-      cursor:pointer;
-      color:#000;
-      transition: background .2s;
-    }
-    .search button:hover { background:#00cc00; }
+<body>    
+<canvas id="matrix"></canvas>  
+<div class="reactor-glow"></div>  
 
-    .footer {
-      position:fixed;
-      bottom:0;
-      font-size:12px;
-      color:#9aa0a6;
-      width:100%;
-      text-align:center;
-      padding:8px 0;
-      z-index:1;
-    }
-  </style>
-</head>
+<h1 class="logo" id="logo"></h1>    
 
-<body>
-  <canvas id="matrix"></canvas>
-  <div class="reactor-glow"></div>
+<p class="tagline" id="tagline">Badal_6174</p>  
 
-  <h1 class="logo">
-    <span class="L">L</span>
-    <span class="u">u</span>
-    <span class="c">c</span>
-    <span class="e">e</span>
-    <span class="f">f</span>
-    <span class="a">a</span>
-  </h1>
+<form class="search" action="https://www.google.com/search" method="GET">    
+  <input type="text" name="q" placeholder="Type to search…" autofocus>    
+  <button type="submit">Search</button>    
+</form>  
 
-  <p class="tagline">Badal_6174</p>
+<!-- Customize Button -->
+<button class="customize-btn" onclick="customizeName()">✏ Customize Name</button>
 
-  <form class="search" action="https://www.google.com/search" method="GET">
-    <input type="text" name="q" placeholder="Type to search…" autofocus>
-    <button type="submit">Search</button>
-  </form>
+<div class="footer" id="footer">Made for Lucefa • by Badal_6174</div>  
 
-  <div class="footer">Made for Lucefa • by Badal_6174</div>
+<script>    
+// Matrix Rain
+const canvas = document.getElementById('matrix');    
+const ctx = canvas.getContext('2d');    
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const fontSize = 16;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = Array(columns).fill(1);
+function draw() {
+  ctx.fillStyle = 'rgba(0,0,0,0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#00ff00';
+  ctx.font = fontSize + 'px monospace';
+  for(let i = 0; i < drops.length; i++){
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+    if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){    
+      drops[i] = 0;    
+    }    
+    drops[i]++;
+  }
+}
+setInterval(draw, 50);
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
 
-  <script>
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+// Voice
+window.addEventListener("load", () => {
+  function speak(text, pitch = 1.2, rate = 0.9) {
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.pitch = pitch;
+    msg.rate = rate;
+    msg.volume = 1;
+    msg.voice = speechSynthesis.getVoices().find(v =>
+      v.name.includes("Google UK English Male") || 
+      v.name.includes("Google UK English Female") || 
+      v.name.includes("Google US English")
+    ) || null;
+    speechSynthesis.speak(msg);
+  }
+  speak("Welcome Sir. Access Granted.", 1.2, 0.9);
+  setTimeout(() => speak("System Ready.", 1.1, 1.0), 2500);
+});
 
-    const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const fontSize = 16;
-    const columns = Math.floor(canvas.width / fontSize);
-    const drops = Array(columns).fill(1);
+// ---- Customize Name ----
+function loadName() {
+  const savedName = localStorage.getItem("customName") || "Lucefa";
 
-    function draw() {
-      ctx.fillStyle = 'rgba(0,0,0,0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#00ff00';
-      ctx.font = fontSize + 'px monospace';
+  // Logo render letter by letter
+  const logo = document.getElementById("logo");
+  logo.innerHTML = "";
+  [...savedName].forEach((ch, i) => {
+    const span = document.createElement("span");
+    span.textContent = ch;
+    span.style.animationDelay = (i * 0.2) + "s";
+    const colors = ["#4285F4","#EA4335","#FBBC05","#34A853","#EA4335","#4285F4"];
+    span.style.color = colors[i % colors.length];
+    logo.appendChild(span);
+  });
 
-      for(let i = 0; i < drops.length; i++){
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){    
-          drops[i] = 0;    
-        }
-        drops[i]++;
-      }
-    }
-    setInterval(draw, 50);
+  // tagline & footer fixed
+  document.getElementById("tagline").innerText = "Badal_6174";
+  document.getElementById("footer").innerText = "Made for Lucefa • by Badal_6174";
+}
 
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
+function customizeName() {
+  const newLogo = prompt("Enter site name (Logo):", localStorage.getItem("customName") || "Lucefa");
 
-    // Voice greeting
-    window.addEventListener("load", () => {
-      function speak(text, pitch = 1.2, rate = 0.9) {
-        const msg = new SpeechSynthesisUtterance(text);
-        msg.pitch = pitch;
-        msg.rate = rate;
-        msg.volume = 1;
-        msg.voice = speechSynthesis.getVoices().find(v =>
-          v.name.includes("Google UK English Male") || 
-          v.name.includes("Google UK English Female") || 
-          v.name.includes("Google US English")
-        ) || null;
-        speechSynthesis.speak(msg);
-      }
+  if(newLogo && newLogo.trim() !== "") {
+    localStorage.setItem("customName", newLogo.trim());
+  }
+  loadName();
+}
 
-      speak("Welcome Sir. Access Granted.", 1.2, 0.9);
-      setTimeout(() => { speak("System Ready.", 1.1, 1.0); }, 2500);
-    });
-  </script>
+loadName();
+</script>  
 </body>
 </html>
