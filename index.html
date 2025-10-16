@@ -6,7 +6,6 @@
 <title>Lucefa Search</title>    
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">    
 
-<!-- Manifest for PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#00ff00">
 
@@ -52,7 +51,7 @@ body {
   50% { transform:translate(-50%,-50%) scale(1.1); opacity:1; }
 }
 
-/* ---------- Google Style Logo ---------- */
+/* ---------- Logo ---------- */
 .logo span {
   font-size: clamp(46px, 12vw, 88px);
   font-weight:800;
@@ -63,19 +62,17 @@ body {
   position:relative;
   z-index:1;
 }
-
-/* Har letter ka color (Google style) */
-.logo span:nth-child(1) { color: #4285F4; } /* Blue */
-.logo span:nth-child(2) { color: #DB4437; } /* Red */
-.logo span:nth-child(3) { color: #F4B400; } /* Yellow */
-.logo span:nth-child(4) { color: #4285F4; } /* Blue */
-.logo span:nth-child(5) { color: #0F9D58; } /* Green */
-.logo span:nth-child(6) { color: #DB4437; } /* Red */
+.logo span:nth-child(1){color:#4285F4;}
+.logo span:nth-child(2){color:#DB4437;}
+.logo span:nth-child(3){color:#F4B400;}
+.logo span:nth-child(4){color:#4285F4;}
+.logo span:nth-child(5){color:#0F9D58;}
+.logo span:nth-child(6){color:#DB4437;}
 
 @keyframes popIn {
-  0% { opacity:0; transform:scale(0.5) translateY(20px); }
-  60% { opacity:1; transform:scale(1.2) translateY(-4px); }
-  100% { opacity:1; transform:scale(1) translateY(0); }
+  0%{opacity:0;transform:scale(0.5) translateY(20px);}
+  60%{opacity:1;transform:scale(1.2) translateY(-4px);}
+  100%{opacity:1;transform:scale(1) translateY(0);}
 }
 
 .tagline {
@@ -92,6 +89,7 @@ body {
 .search {
   margin-top:28px;
   display:flex;
+  align-items:center;
   width:min(500px,90%);
   border:1px solid rgba(255,255,255,0.2);
   border-radius:40px;
@@ -120,6 +118,19 @@ body {
 }
 .search button:hover { background:#00cc00; }
 
+/* 🎤 Mic Button */
+.mic-btn {
+  background:transparent;
+  border:none;
+  outline:none;
+  cursor:pointer;
+  color:#00ff00;
+  font-size:20px;
+  margin-right:10px;
+  transition:color .3s;
+}
+.mic-btn.active { color:#ff4444; }
+
 .footer {
   position:fixed;
   bottom:0;
@@ -131,7 +142,6 @@ body {
   z-index:1;
 }
 
-/* --- Customize Button --- */
 .customize-btn {
   margin-top:12px;
   background:#222;
@@ -155,76 +165,97 @@ body {
 <p class="tagline" id="tagline">Badal_6174</p>  
 
 <form class="search" action="https://www.google.com/search" method="GET">    
-  <input type="text" name="q" placeholder="Type to search…" autofocus>    
+  <input type="text" id="searchInput" name="q" placeholder="Type or speak to search…" autofocus>    
+  <button type="button" class="mic-btn" id="micBtn">🎤</button>
   <button type="submit">Search</button>    
 </form>  
 
-<!-- Customize Button -->
-<button class="customize-btn" onclick="customizeName()"> Customize Logo</button>
+<button class="customize-btn" onclick="customizeName()">⚙ Customize Logo</button>
 
 <div class="footer" id="footer">Made for Lucefa • by Badal_6174</div>  
 
 <script>    
-// Matrix Rain
-const canvas = document.getElementById('matrix');    
-const ctx = canvas.getContext('2d');    
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = Array(columns).fill(1);
-function draw() {
-  ctx.fillStyle = 'rgba(0,0,0,0.05)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#00ff00';
-  ctx.font = fontSize + 'px monospace';
-  for(let i = 0; i < drops.length; i++){
-    const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-    if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){    
-      drops[i] = 0;    
-    }    
+// 🌧 Matrix Rain
+const canvas=document.getElementById('matrix');    
+const ctx=canvas.getContext('2d');    
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+const letters='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const fontSize=16;
+const columns=Math.floor(canvas.width/fontSize);
+const drops=Array(columns).fill(1);
+function draw(){
+  ctx.fillStyle='rgba(0,0,0,0.05)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#00ff00';
+  ctx.font=fontSize+'px monospace';
+  for(let i=0;i<drops.length;i++){
+    const text=letters.charAt(Math.floor(Math.random()*letters.length));
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height && Math.random()>0.975){drops[i]=0;}
     drops[i]++;
   }
 }
-setInterval(draw, 50);
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+setInterval(draw,50);
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
 
-// ---- Customize Logo ----
-function loadName() {
-  const savedName = localStorage.getItem("customName") || "Lucefa";
-
-  // Logo render letter by letter (Google colors apply automatically via CSS nth-child)
-  const logo = document.getElementById("logo");
-  logo.innerHTML = "";
-  [...savedName].forEach((ch, i) => {
-    const span = document.createElement("span");
-    span.textContent = ch;
-    span.style.animationDelay = (i * 0.2) + "s";
+// ---- Logo ----
+function loadName(){
+  const savedName=localStorage.getItem("customName")||"Lucefa";
+  const logo=document.getElementById("logo");
+  logo.innerHTML="";
+  [...savedName].forEach((ch,i)=>{
+    const span=document.createElement("span");
+    span.textContent=ch;
+    span.style.animationDelay=(i*0.2)+"s";
     logo.appendChild(span);
   });
-
-  document.getElementById("footer").innerText = "Made for " + savedName + " • by Badal_6174";
 }
-
-function customizeName() {
-  const newLogo = prompt("Enter site name (Logo):", localStorage.getItem("customName") || "Lucefa");
-  if(newLogo && newLogo.trim() !== "") {
-    localStorage.setItem("customName", newLogo.trim());
-  }
+function customizeName(){
+  const newLogo=prompt("Enter site name (Logo):",localStorage.getItem("customName")||"Lucefa");
+  if(newLogo&&newLogo.trim()!==""){localStorage.setItem("customName",newLogo.trim());}
   loadName();
 }
-
 loadName();
 
-// ---- Register Service Worker ----
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js')
-    .then(() => console.log("Service Worker Registered"));
+// 🎤 Voice Search
+const micBtn=document.getElementById("micBtn");
+const searchInput=document.getElementById("searchInput");
+let recognition;
+if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recognition=new SpeechRecognition();
+  recognition.lang='en-IN';
+  recognition.continuous=false;
+  recognition.interimResults=false;
+  
+  micBtn.addEventListener('click',()=>{
+    if(micBtn.classList.contains('active')){
+      recognition.stop();
+      micBtn.classList.remove('active');
+    } else {
+      recognition.start();
+      micBtn.classList.add('active');
+    }
+  });
+
+  recognition.onresult=function(event){
+    const transcript=event.results[0][0].transcript;
+    searchInput.value=transcript;
+    micBtn.classList.remove('active');
+  }
+
+  recognition.onerror=function(){
+    micBtn.classList.remove('active');
+  }
+}else{
+  micBtn.style.display='none';
+  console.log("Speech recognition not supported.");
+}
+
+// PWA Service Worker
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('service-worker.js').then(()=>console.log("Service Worker Registered"));
 }
 </script>  
 </body>
