@@ -1,31 +1,36 @@
-function loadName() {
-  const savedName = localStorage.getItem("customName") || "Lucefa";
+// 👋 Welcome Back Voice + Animation
+window.addEventListener("load", () => {
+  // Text Animation
+  const welcome = document.createElement("div");
+  welcome.textContent = "Welcome back, Sir";
+  welcome.style.position = "absolute";
+  welcome.style.top = "20%";
+  welcome.style.left = "50%";
+  welcome.style.transform = "translateX(-50%)";
+  welcome.style.fontSize = "28px";
+  welcome.style.fontWeight = "600";
+  welcome.style.color = "#00ff00";
+  welcome.style.opacity = "0";
+  welcome.style.transition = "opacity 1s ease, transform 1s ease";
+  welcome.style.zIndex = "2";
+  document.body.appendChild(welcome);
 
-  // Logo render letter by letter
-  const logo = document.getElementById("logo");
-  logo.innerHTML = "";
-  [...savedName].forEach((ch, i) => {
-    const span = document.createElement("span");
-    span.textContent = ch;
-    span.style.animationDelay = (i * 0.2) + "s";
+  setTimeout(() => {
+    welcome.style.opacity = "1";
+    welcome.style.transform = "translateX(-50%) translateY(10px)";
+  }, 500);
 
-    // Pure neon green glow effect
-    span.style.color = "#00ff00";
-    span.style.textShadow = "0 0 5px #00ff00, 0 0 10px #00ff66, 0 0 20px #00ffaa";
+  setTimeout(() => {
+    welcome.style.opacity = "0";
+  }, 4000);
 
-    logo.appendChild(span);
-  });
-
-  document.getElementById("footer").innerText = "Made for " + savedName + " • by Badal_6174";
-}
-[...savedName].forEach((ch, i) => {
-  const span = document.createElement("span");
-  span.textContent = ch;
-  span.style.animationDelay = (i * 0.2) + "s";
-
-  // Neon green glow effect only
-  span.style.color = "#00ff00";
-  span.style.textShadow = "0 0 5px #00ff00, 0 0 10px #00ff33, 0 0 20px #00ff66";
-
-  logo.appendChild(span);
+  // Voice Greeting 🎤
+  if ("speechSynthesis" in window) {
+    const msg = new SpeechSynthesisUtterance("Welcome back, Sir");
+    msg.pitch = 1.2;
+    msg.rate = 1;
+    msg.volume = 1;
+    msg.lang = "en-IN";
+    speechSynthesis.speak(msg);
+  }
 });
